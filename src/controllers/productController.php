@@ -69,13 +69,13 @@ class productController
               <tr>
               <th>'.$product['ProductId'].'</th>
                 <td>
-                 <img class="rounded-circle" style="height: 50px; width: 50px" src="../src/ProductImageUpload/'.$product['ProductImage'].'" alt="image"> </td>
+                 <img class="rounded-circle" style="height: 50px; width: 50px" src="../ProductImageUpload/'.$product['ProductImage'].'" alt="image"> </td>
                   <td>'.$product['ProductName'].'</td>
                   <td>'.$product['ProductCategory'].'</td>
                   <td>'.$product['Price'].'</td>
                   <td>
-                  <button id="btn_edit" value="'.$product['ProductId'].'" class="btn btn-primary">Edit</button>
-                   <button class="btn btn-danger">Archive</button>
+                  <button id="btn_edit_product" value="'.$product['ProductId'].'" class="btn btn-primary">Edit</button>
+                   <button id="btn_archive" value="'.$product['ProductId'].'" class="btn btn-danger">Archive</button>
                  </td>
 
            </tr>
@@ -121,14 +121,14 @@ class productController
                             <div id="ProductPrice_msg" class="invalid-feedback"></div>
                         </div>
         
-                   <div>
-                       <select name="categoryName" id="categoryName" class="form-select" aria-label="Default select example">
-                           <option value="'.$row['ProductCategory'].'" selected>'.$row['ProductCategory'].'</option>
-                          
-                       </select>
-                        <div id="categoryName_msg" class="invalid-feedback"></div>
-                   </div>
-        
+                       <div class="form-floating">
+                          <textarea class="form-control" name="Description" placeholder="Description" id="Description" style="height: 100px">
+                            '.htmlspecialchars($row['description']).'
+                           </textarea>
+                          <label for="Description">Description</label>
+                        </div>
+                        
+                    <input type="hidden" value="'.$row['ProductId'].'"  name="id">
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -160,9 +160,9 @@ class productController
                     <img style="height: 20vh; object-fit: cover; " class="img-fluid" src="../ProductImageUpload/'.$product['ProductImage'].'" alt="Image">
                 </div>
                 <h5 class="card-title">'.$product['ProductName'].'</h5>
-                <p class="card-price">₱'.$product['Price'].'</p>
+                <p class="card-price text-muted">₱'.$product['Price'].'</p>
                 <div >
-                    <button id="btn_productView" value="'.$product['ProductId'].'" style="background-color: #81e5d9" class="btn border-0">Order Now</button>
+                    <button id="btn_productView" value="'.$product['ProductId'].'" class="btn btn-outline-primary">Order Now</button>
                 </div>
             </div>
         <!-- card End -->
@@ -170,7 +170,7 @@ class productController
         }
         echo $card;
     }else{
-        echo "<h1 class='text-light'>No Product Available</h1>";
+        echo "<h6 class='text-muted'>No Product Available</h6>";
     }
   }
 
@@ -190,9 +190,9 @@ class productController
                     <img style="height: 20vh; object-fit: cover; " class="img-fluid" src="../ProductImageUpload/'.$product['ProductImage'].'" alt="Image">
                 </div>
                 <h5 class="card-title">'.$product['ProductName'].'</h5>
-                <p class="card-price">₱'.$product['Price'].'</p>
+                <p class="card-price text-muted">₱'.$product['Price'].'</p>
                 <div >
-                    <button id="btn_productView" value="'.$product['ProductId'].'" style="background-color: #81e5d9" class="btn border-0">Order Now</button>
+                    <button id="btn_productView" value="'.$product['ProductId'].'" class="btn btn-outline-primary">Order Now</button>
                 </div>
             </div>
         <!-- card End -->
@@ -200,7 +200,7 @@ class productController
             }
             echo $card;
         }else{
-            echo "<h1 class='text-light'>No Product Available</h1>";
+            echo "<h6 class='text-muted'>No Product Available</h6>";
         }
     }
 
@@ -222,15 +222,15 @@ class productController
               <!-- Modal for Menu Add Cart -->
             <form class="modal fade form_forAddCART" id="productInfoModal_'.$row['ProductId'].'" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
               <div class="modal-dialog modal-dialog-centered modal-xl">
-                <div style="background-color: #1a202c" class="modal-content">
-                  <div class="modal-body d-lg-flex justify-content-center  gap-3 p-2 align-items-center">
+                <div class="modal-content">
+                  <div class="modal-body d-lg-flex   gap-3 p-2">
                        <img style="height: 30vh; object-fit: cover; " class="img-fluid" src="../ProductImageUpload/'.$row['ProductImage'].'" alt="Image">
                     <div>
                         <h5 class="card-title">'.$row['ProductName'].'</h5>
-                        <p class="card-text">'.$row['description'].'</p>
-                        <p class="card-price   ">₱'.$row['Price'].'</p>
+                        <p class="card-text text-muted">'.$row['description'].'</p>
+                        <p class="card-price ">₱'.$row['Price'].'</p>
                           <div class="mb-2">
-                          <label class="text-light fw-bold" for="quantity"># of Pax</label>
+                          <label class="fw-bold" for="quantity"># of Pax</label>
                             <select name="numberOfPax" class="form-select" aria-label="Default select example">
                               <option value="" selected>Choose an option </option>
                               <option value="5">5 pax</option>
@@ -248,7 +248,7 @@ class productController
                   </div>
                   <div class="d-flex justify-content-end gap-3 p-3">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button style="background-color: #81e5d9" type="submit" class="btn">Add Cart</button>
+                    <button type="submit" class="btn btn-outline-primary">Add Cart</button>
                   </div>
                 </div>
               </div>
@@ -256,6 +256,30 @@ class productController
             ';
         }
         echo $modal;
+  }
+
+  public function update():void
+  {
+      $productName = $_POST['productName'];
+        $price = $_POST['ProductPrice'];
+        $description = $_POST['Description'];
+        $id = $_POST['id'];
+
+        if (empty($productName) || empty($price) || empty($description) || empty($id)){
+            echo json_encode(['success' => false, 'message' => 'All fields are required']);
+            return;
+        }
+
+        $product = new Product();
+        $product->update($productName, $price, $description, $id);
+  }
+
+
+  public function archive():void //for archiving product
+  {
+        $id = $_POST['id'];
+        $product = new Product();
+        $product->archive('IsDeleted',$id);
   }
 }
 
@@ -274,6 +298,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
             break;
         case 'showBaseOnIdInMenuPage':
             $product->showBaseOnIdInMenuPage();
+            break;
+        case 'update':
+            $product->update();
+            break;
+        case 'archive':
+            $product->archive();
             break;
         default:
             echo "Method not allowed";

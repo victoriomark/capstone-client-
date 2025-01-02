@@ -81,6 +81,39 @@ class product extends \config\Connection
         return $data;
     }
 
+
+    public function update(string $productName, int $price, string $description, int $id): void
+    {
+        $conn = $this->Connect();
+        $query = "UPDATE product SET ProductName = ?, Price = ?, description = ? WHERE ProductId = ?";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("sdsi", $productName, $price,  $description, $id);
+
+        if ($stmt->execute()) {
+            echo json_encode(['success' => true, 'message' => 'Product updated successfully!']);
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Failed to update product']);
+        }
+        $conn->close();
+        $stmt->close();
+    }
+
+    public function archive($status,$id):void
+    {
+        $conn = $this->Connect();
+        $query = "UPDATE product SET status = ? WHERE ProductId = ?";
+         $stmt = $conn->prepare($query);
+         $stmt->bind_param('si',$status,$id);
+         if ($stmt->execute()){
+             echo json_encode(['success' => true, 'message' => 'Product Deleted successfully!']);
+         }else{
+             echo json_encode(['success' => false, 'message' => 'Failed to archive product']);
+            }
+         $stmt->close();
+         $conn->close();
+    }
+
+
 }
 
 

@@ -1,12 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Work+Sans:wght@300;400;500;600;700&display=swap');
-
-
-
 /* start: Global */
 :root {
-    --bs-blue: #0d6efd;
-    --bs-indigo: #6610f2;
-    --bs-purple: #6f42c1;
+    --bs-blue:   #0D6EFDFF;
+    --bs-indigo:  #0D6EFDFF;
+    --bs-purple:  #0D6EFDFF;
     --bs-pink: #d63384;
     --bs-red: #dc3545;
     --bs-orange: #fd7e14;

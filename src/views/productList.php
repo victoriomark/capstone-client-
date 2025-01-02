@@ -5,11 +5,13 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Product List</title>
-    <?php
+    <link rel="stylesheet" href="../../assets/css/style.css">
+    <link rel="stylesheet" href="../../assets/css/bootstrap.min.css">
+    <title>Product List</title>    <?php
 
     include '../../includes/cdn_links.php';
     ?>
+
 </head>
 <body>
 <header>
@@ -18,7 +20,7 @@
     ?>
 </header>
 <main class="container-fluid">
-    <table class="table table-hover">
+    <table class="table table-hover table-striped-columns">
         <thead>
         <tr>
              <th>#</th>

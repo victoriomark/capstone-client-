@@ -52,7 +52,7 @@ $(document).ready(function (){
     })
 
 
-    $(document).on('submit','.updateProductForm',function (event){
+    $(document).on('submit','.updateProductForm',function (event){ // update product
         event.preventDefault()
 
         var Data = new FormData(this)
@@ -65,15 +65,29 @@ $(document).ready(function (){
             contentType: false,
             dataType: 'json',
             success: function (res){
-                console.log(res)
+                if (res.success === true){
+                    Swal.fire({
+                        text: res.message,
+                        icon: "success",
+                        showConfirmButton: false
+                    });
+                    setTimeout(() =>{window.location.reload()},2000)
+                }
+
+                if (res.success === false){
+                    Swal.fire({
+                        text: res.message,
+                        icon: "error"
+                    });
+                }
+
             }
         })
 
     })
 
 
-    $(document).on('click','#btn_edit',function (id){
-
+    $(document).on('click','#btn_edit_product',function (id){ // show modal for edit product
         $.ajax({
             url: '../controllers/productController.php',
             type: 'post',
@@ -83,5 +97,45 @@ $(document).ready(function (){
                 $(`#product_modal_${id.target.value}`).modal('show')
             }
         })
+    })
+
+    // for active and inactive product
+    $(document).on('click','#btn_archive',function (id){
+        Swal.fire({
+            title: "Are you sure?",
+            text: "This action is irreversible. Are you sure you want to proceed?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+               // ajax request for archive product
+                $.ajax({
+                    url: '../controllers/productController.php',
+                    type: 'post',
+                    data: {id:id.target.value,action: 'archive'},
+                    dataType: 'json',
+                    success: function (res){
+                        if (res.success === true){
+                            Swal.fire({
+                                text: res.message,
+                                icon: "success",
+                                showConfirmButton: false
+                            });
+                            setTimeout(() =>{window.location.reload()},2000)
+                        }
+
+                        if (res.success === false){
+                            Swal.fire({
+                                text: res.message,
+                                icon: "error"
+                            });
+                        }
+                    }
+                })
+            }
+        });
     })
 })

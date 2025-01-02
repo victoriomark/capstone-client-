@@ -62,7 +62,7 @@
             </a>
             <ul class="sidebar-dropdown-menu">
                 <li class="sidebar-dropdown-menu-item">
-                    <a href="#">
+                    <a href="reservationList.php">
                         Reservation List
                     </a>
                 </li>
@@ -77,7 +77,7 @@
             </a>
             <ul class="sidebar-dropdown-menu">
                 <li class="sidebar-dropdown-menu-item">
-                    <a href="#">
+                    <a href="clientList.php">
                         Users List
                     </a>
                 </li>
